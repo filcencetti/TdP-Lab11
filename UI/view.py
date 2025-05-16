@@ -25,7 +25,7 @@ class View(ft.UserControl):
 
     def load_interface(self):
         # title
-        self._title = ft.Text("TdP 2024 - Lab11: Prova tema d'esame", color="blue", size=24)
+        self._title = ft.Text("TdP 2025 - Lab11: Prova tema d'esame", color="blue", size=24)
         self._page.controls.append(self._title)
 
         #ROW with some controls
@@ -42,7 +42,7 @@ class View(ft.UserControl):
         self._controller.fillDD()
 
         # List View where the reply is printed
-        self.txtOut = ft.ListView(expand=1, spacing=10, padding=10, auto_scroll=True)
+        self.txtOut = ft.ListView(expand=1, spacing=10, padding=10)
         self._page.controls.append(self.txtOut)
 
         self._ddnode = ft.Dropdown(label="Product")
@@ -51,7 +51,7 @@ class View(ft.UserControl):
                       alignment=ft.MainAxisAlignment.CENTER)
         self._page.controls.append(row2)
 
-        self.txtOut2 = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=True)
+        self.txtOut2 = ft.ListView(expand=1, spacing=10, padding=20)
         self._page.controls.append(self.txtOut2)
         self._page.update()
 

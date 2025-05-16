@@ -23,7 +23,7 @@ class DAO():
         return result
 
     @staticmethod
-    def getEdges(color,year):
+    def getEdges(year,color):
         conn = DBConnect.get_connection()
 
         result = []
@@ -38,7 +38,7 @@ class DAO():
         cursor.execute(query, (color,color,year))
 
         for row in cursor:
-            result.append(*row)
+            result.append(row)
 
         cursor.close()
         conn.close()

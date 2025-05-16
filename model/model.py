@@ -1,13 +1,38 @@
 import networkx as nx
-
 from database.DAO import DAO
-
 
 class Model:
     def __init__(self):
         self._products = DAO.getProducts()
+        self._graph = None
+        self._idMap = {}
+        for v in self._products:
+            self._idMap[v.Product_number] = v
 
-    def buildGraph(self,color,year):
-        self._graph = nx.Graph
-        self._graph.add_nodes_from(self._products)
-        allEdges = DAO.getEdges(,)
+    def buildGraph(self,year,color):
+        self._graph = nx.Graph()
+        for prod in self._products:
+            if prod.Product_color == color:
+                self._graph.add_node(prod)
+        allEdges = DAO.getEdges(year,color)
+        for edge in allEdges:
+            self._graph.add_edge(self._idMap[edge[0]], self._idMap[edge[1]], weight=edge[2])
+
+    def searchPath(self,code):
+        self._max_edge = 0
+        path = list(self._graph.edges(self._idMap[code],data=True))
+        path = self.recursive_path(path)
+        return len(path)
+
+    def recursive_path(self, path):
+        for u,v, weight in path:
+            if weight["weight"] > self._max_edge:
+                self._max_edge = weight["weight"]
+
+        for arch in path:
+            for u, v, weight in self._graph.edges(arch[1],data=True):
+                if (u,v,weight) not in path and weight["weight"] >= self._max_edge:
+                    path.append((u, v, weight))
+                    self.recursive_path(path)
+
+        return path

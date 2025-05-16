@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+
 @dataclass
 class Product:
     Product : str
@@ -15,5 +16,6 @@ class Product:
 
     def __eq__(self, other):
         return self.Product_number == other.Product_number
+
     def __str__(self):
-        return f"{self.Product}"
+        return f"{self.Product_number}"
