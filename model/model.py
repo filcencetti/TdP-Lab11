@@ -20,19 +20,19 @@ class Model:
 
     def searchPath(self,code):
         self._max_edge = 0
-        path = list(self._graph.edges(self._idMap[code],data=True))
-        path = self.recursive_path(path)
-        return len(path)
+        lun_percorso = 0
+        for arch in list(self._graph.edges(self._idMap[code],data=True)):
+            self.path = []
+            self.recursive_path(arch)
+            if len(self.path) > lun_percorso:
+                lun_percorso = len(self.path)
 
-    def recursive_path(self, path):
-        for u,v, weight in path:
-            if weight["weight"] > self._max_edge:
-                self._max_edge = weight["weight"]
+        return lun_percorso
 
-        for arch in path:
+    def recursive_path(self, arch):
             for u, v, weight in self._graph.edges(arch[1],data=True):
-                if (u,v,weight) not in path and weight["weight"] >= self._max_edge:
-                    path.append((u, v, weight))
-                    self.recursive_path(path)
-
-        return path
+                if (u,v,weight) not in self.path and weight["weight"] >= self._max_edge:
+                    self._max_edge = weight["weight"]
+                    self.path.append((u, v, weight))
+                    self.recursive_path((u,v,weight))
+                    self.path.pop()
